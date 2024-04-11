@@ -10,9 +10,18 @@ Use this template for Operating Systems Program 3 in C++.
 
 ### Starter code
 
-To help you get started quickly, the starter code file includes code to process the two command-line arguments and begin processing the setup file. You have my permission to use, modify, or delete this code. There are also hints about other steps to complete in the main program.
+To help you get started quickly, the starter code file includes code to process the two command-line arguments and begin processing the setup file. You may use, modify, or delete this code. There are also hints about other steps to complete in the main program.
 
 The included files use a (mostly) typical C++ file structure for a program like this. Feel free to change, add, divide, combine, or delete files; add or combine classes; create more methods; modify the existing methods; and more. Providing correct functionality is more important than having a specific program structure.
+
+### Coding and compiling
+
+When I grade your program, I will compile and run your code on a Linux virtual machine using the GNU C++ compiler (`g++`). You can use all C++ features that are supported by the C++17 standard plus amendments. 
+* You can develop on Visual Studio or other IDEs as long as you use only standard C/C++ features in your code. Specifically, please do not use `#include <windows.h>` since your code will be compiled and run on a Linux system.
+* If you develop on **washington.uww.edu**, suggested compiler commands are `gcc-5` (C) or `g++-5` (C++). You might need to edit the makefile to use this compiler command.
+* You may need to compile your code with the `-lpthread` option (note: second character is a lowercase letter L, not a number 1). The included makefile uses this option.
+
+**Your C++ code files must use the extension `.cpp`**, except header files may use the extension `.h`. The makefile that GitHub Classroom uses to run your code searches only for files with .cpp extensions.
 
 ### Testing
 
@@ -34,18 +43,9 @@ The `make` command should be supported by
 
 If you are using GitHub Codespaces or Visual Studio Code, I have included predefined run configurations for these test cases using manual or automatic mode. These also rely on "make". It's possible to debug on VSCode or Codespaces without the make command, but this will require some changes to configuration file, and I might not be able to support you with those changes.
 
-### Autograder requirements
-
-GitHub Classroom autograding may be enabled for this program. The GitHub Classroom autograder will compile and run your code on a Linux virtual machine using the GNU C++ compiler (`g++`). You can use all C++ features that are supported by the C++17 standard plus amendments. 
-* You can develop on Visual Studio or other IDEs as long as you use only standard C/C++ features in your code. Specifically, please do not use `#include <windows.h>` since your code will be compiled and run on a Linux system.
-* If you develop on **washington.uww.edu**, suggested compiler commands are `gcc-5` (C) or `g++-5` (C++). You might need to edit the makefile to use this compiler command.
-* You may need to compile your code with the `-lpthread` option (note: second character is a lowercase letter L, not a number 1). The included makefile uses this option.
-
-**Your C++ code files must use the extension `.cpp`**, except header files may use the extension `.h`. The makefile that GitHub Classroom uses to run your code searches only for files with .cpp extensions.
-
 ### Problems?
 
-If you are encountering problems, please commit and push your code, then [email me](osterz@uww.edu) with a description of what's happening. I will look at your repository on GitHub to try to help you debug.
+If you encounter problems, please commit and push your code, then [email me](osterz@uww.edu) with a description of what's happening. I will look at your repository on GitHub to try to help you debug.
 
 
 ## Advice for C++ programmers
