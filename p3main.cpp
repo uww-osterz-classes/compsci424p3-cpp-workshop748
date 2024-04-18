@@ -17,6 +17,8 @@
 #include <string>
 #include <cstdio> // for sscanf because Dr. Oster likes the C way to
                   // get data from strings better than the C++ way
+#include<vector>
+#include<sstream>
 using namespace std; // if you want to type out "std::" every time, delete this
 
 /*
@@ -60,7 +62,7 @@ int main (int argc, char *argv[]) {
     string line;
     int num_resources;
     int num_processes;
-
+    
     setup_file.open(argv[2], ios::in);
     if (setup_file.is_open()) {
         // 2. Get the number of resources and processes from the setup
@@ -75,12 +77,46 @@ int main (int argc, char *argv[]) {
         cout << num_processes << " processes" << endl;
         
         getline(setup_file, line); // skips the rest of the "processes" line
-
-
+// I am currebtly unaware of the size of the incoming text file and I will be using a 2-D Vector to solve this problem
+       
+        int alloc [num_processes][num_resources];
+        int max [num_processes][num_resources];
+        
+        cout<<"avaliable"<<endl;
+        int avail[num_processes];
+        getline(setup_file,line);
+        while(line != "Max" )
+        {
+            getline(setup_file,line);
+            istringstream iss(line);
+             if(line == "Max")
+            {
+                break;
+            }
+        }
+        cout<<"Max"<<endl;
         // Create the Banker's Algorithm data structures, in any
         // way you like as long as they have the correct size
         // (unfortunately, you might not be able to use sscanf for this...)
+        getline(setup_file,line);
+        while(line != "Allocation")
+        {// ask if there is an easier way
+            getline(setup_file,line);
+            istringstream iss(line);
+            //check if the line reads alocate
+            if(line == "Allocation")
+            {
+                break;
+            }
+        }
 
+        cout<<"Allocation"<<endl;
+        getline(setup_file,line);
+        while(!getline(setup_file,line))
+        {
+            getline(setup_file,line);
+            istringstream iss (line);
+        }
         // 3. Use the rest of the setup file to initialize the data structures
 
 
@@ -97,6 +133,7 @@ int main (int argc, char *argv[]) {
     // as separate methods within this class, as separate classes
     // with their own main methods, or as additional code within
     // this main method.
+
     
     return 0; // terminate normally
 }
