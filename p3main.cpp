@@ -31,7 +31,19 @@ using namespace std; // if you want to type out "std::" every time, delete this
    time, so I'm allowing it here.
 */
 
-
+int getNum(string &line)
+{
+    //this is going to search for the string to find a possible space and take that char and turn it into a number
+  char NuminChar;
+  int num;
+    for( auto i: line){
+     if(i == ' ')
+     {
+        NuminChar = i--;
+     }   
+    }
+    return num =int(NuminChar);
+}
 /*
   Arguments:
     argc: the number of command-line arguments, which should be >= 2
@@ -69,21 +81,35 @@ int main (int argc, char *argv[]) {
         // file, and use this info to create the Banker's Algorithm
         // data structures
         setup_file >> num_resources;
+        getline(setup_file, line); // skips the rest of the "resources" line
+        num_resources=getNum(line);
+       
         cout << num_resources << " resources" << endl;
 
-        getline(setup_file, line); // skips the rest of the "resources" line
-        
+
         setup_file >> num_processes;
+
         cout << num_processes << " processes" << endl;
         
         getline(setup_file, line); // skips the rest of the "processes" line
+        num_resources=getNum(line);
 // I am currebtly unaware of the size of the incoming text file and I will be using a 2-D Vector to solve this problem
-       
-        int alloc [num_processes][num_resources];
-        int max [num_processes][num_resources];
-        
+       if(num_resources ==3 && num_processes==5)
+{
+int alloc[3];
+int avali[5][3];
+int max[5][3];
+}   else if (num_resources ==4 && num_processes==5)  
+{
+int avali[4];
+int alloc[5][4];
+int max[5][4];
+}   else{
+    cout<<"Error 1.1 creating the 2-D array for algorithm";
+    return -1;
+}
         cout<<"avaliable"<<endl;
-        int avail[num_processes];
+        
         getline(setup_file,line);
         while(line != "Max" )
         {
