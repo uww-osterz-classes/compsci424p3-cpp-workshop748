@@ -44,6 +44,7 @@ int getNum(string &line)
     }
     return num =int(NuminChar);
 }
+
 /*
   Arguments:
     argc: the number of command-line arguments, which should be >= 2
@@ -74,6 +75,11 @@ int main (int argc, char *argv[]) {
     string line;
     int num_resources;
     int num_processes;
+    int work[NULL],Finish[NULL],ind =0;
+    int max[NULL][NULL];
+    int need[NULL][NULL];
+    int avali[NULL];
+    int alloc[NULL][NULL];
     
     setup_file.open(argv[2], ios::in);
     if (setup_file.is_open()) {
@@ -94,20 +100,30 @@ int main (int argc, char *argv[]) {
         getline(setup_file, line); // skips the rest of the "processes" line
         num_resources=getNum(line);
 // I am currebtly unaware of the size of the incoming text file and I will be using a 2-D Vector to solve this problem
+        //declaring the 2-D Array outside and declairing them as NUll
+        
+
        if(num_resources ==3 && num_processes==5)
-{
-int alloc[3];
-int avali[5][3];
-int max[5][3];
-}   else if (num_resources ==4 && num_processes==5)  
-{
-int avali[4];
-int alloc[5][4];
-int max[5][4];
-}   else{
+         {
+            //depending on the num_resorses, will asign the length of the row
+             avali[3];
+             alloc[5][3];
+             max[5][3];
+             need[5][3];
+        }
+        else if (num_resources ==4 && num_processes==5)  
+        {
+            avali[4];
+            alloc[5][4];
+            max[5][4];
+            need[5][4];
+        }   
+        else
+        {
     cout<<"Error 1.1 creating the 2-D array for algorithm";
     return -1;
-}
+        }
+
         cout<<"avaliable"<<endl;
         
         getline(setup_file,line);
@@ -143,6 +159,21 @@ int max[5][4];
             getline(setup_file,line);
             istringstream iss (line);
         }
+        
+        //initializing every f element to 0
+        for(int i =0;i<num_processes;i++)
+        {
+            work[i]=0;
+        } 
+
+        for(int i=0;i<num_processes;i++)
+        {
+            for(int j=0;j<num_resources;j++)
+            {
+                
+                need[i][j]=max[i][j]-alloc[i][j];
+            }
+        }    
         // 3. Use the rest of the setup file to initialize the data structures
 
 
@@ -153,6 +184,55 @@ int max[5][4];
     // 4. Check initial conditions to ensure that the system is
     // beginning in a safe state: see "Check initial conditions"
     // in the Program 3 instructions
+    for(int k=0;k<5;k++)
+    {
+        for(int i=0;i<num_resources;i++)
+        {
+            //probably not the best way of doing things but im simplifing my code so I can understand it better
+            if(work[i]==0)
+            {
+                int flag =1;
+                for(int j =0; j<num_processes;j++)
+                {
+                    if(need[i][j]>avali[j])
+                    {
+                        flag =1;
+                        break;
+                    }
+                }
+                if(flag ==0)
+            {
+               Finish[ind++]=i;
+               for(int j=0;j<num_processes;j++)
+               {
+                avali[j]+= alloc[i][j];
+               }
+               work[i]=1;
+            }
+            }
+            
+        }
+    }
+    int flag =1;
+
+    for (int i =0;i<num_processes;i++)
+    {
+        if(work[i]==0)
+        {
+            flag=0;
+            cout<<"The given sequence is not safe"<<endl;
+            break;
+        }
+    }
+    if(flag ==1)
+    {
+        cout<<"Following is the SAFE sequence"<<endl;
+        for(int i=0;i<num_processes-1;i++)
+        {
+            cout<<" P"<<Finish[i]<<" ->";
+        }
+        cout<<" P"<<Finish[num_processes-1]<<endl;
+    }
 
     // 5. Go into either manual or automatic mode, depending on
     // the value of args[0]; you could implement these two modes
