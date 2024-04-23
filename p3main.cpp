@@ -44,6 +44,29 @@ int getNum(string &line)
     }
     return num =int(NuminChar);
 }
+void manualMode()
+{
+string asking="";
+int units,Resources,process;
+char regOrRel [20];
+
+while(getline(cin,asking))
+{
+    if(asking !="end")
+    {
+    const char* fun = asking.c_str();
+    sscanf(fun, "%s,%d,%*s,%d,%*s,%d",regOrRel,&units,&Resources,&process);
+    }
+    else{
+        break;
+    }
+}
+}
+
+void automaticMode()
+{
+
+}
 
 /*
   Arguments:
@@ -99,7 +122,7 @@ int main (int argc, char *argv[]) {
         
         getline(setup_file, line); // skips the rest of the "processes" line
         num_resources=getNum(line);
-// I am currebtly unaware of the size of the incoming text file and I will be using a 2-D Vector to solve this problem
+
         //declaring the 2-D Array outside and declairing them as NUll
         
 
@@ -144,12 +167,13 @@ int main (int argc, char *argv[]) {
         while(line != "Allocation")
         {// ask if there is an easier way
             getline(setup_file,line);
-            istringstream iss(line);
+          
             //check if the line reads alocate
             if(line == "Allocation")
             {
                 break;
             }
+            
         }
 
         cout<<"Allocation"<<endl;
@@ -239,6 +263,20 @@ int main (int argc, char *argv[]) {
     // as separate methods within this class, as separate classes
     // with their own main methods, or as additional code within
     // this main method.
+    string  mode =argv[1];
+    if(mode == "manual"||mode=="Manual")
+    {
+        manualMode();
+    }
+    else if(mode == "automatic"||mode == "automatic")
+    {
+        automaticMode();
+    }
+    else
+    {
+        cout<<" Invalid node. Please try again by spesifing 'manual' or 'automatic'";
+        return 1;
+    }
 
     
     return 0; // terminate normally
