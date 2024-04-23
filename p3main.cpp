@@ -31,15 +31,6 @@ using namespace std; // if you want to type out "std::" every time, delete this
    time, so I'm allowing it here.
 */
 
-int getNum(string &line)
-{
- 
-    //this is going to search for the string to find a possible space and take that char and turn it into a number
- const char * constChar = line.c_str();
- int theNum;
- sscanf(constChar,"%d,%s",&theNum);
- return theNum;
-}
 void manualMode()
 {
 string asking="";
@@ -107,7 +98,7 @@ int main (int argc, char *argv[]) {
         // data structures
         setup_file >> num_resources;
         getline(setup_file, line); // skips the rest of the "resources" line
-        num_resources=getNum(line);
+
        
         cout << num_resources << " resources" << endl;
        
@@ -117,91 +108,41 @@ int main (int argc, char *argv[]) {
         cout << num_processes << " processes" << endl;
         
         getline(setup_file, line); // skips the rest of the "processes" line
-        num_resources=getNum(line);
-
+        getline(setup_file,line);
+//>> will grab a sequence of characters and do the right thing with it.
         //declaring the 2-D Array outside and declairing them as NUll
-        
+//this is setting up the Available array        
+for(int i =0;i<num_resources;i++)
+{
+    int theNumber;
+    setup_file>>theNumber;
+    avali[i]=theNumber;
+}
+getline(setup_file,line);
+//set up the max array
+for(int i =0;i<num_processes;i++)
+{
+    int TheNumber;
+    for(int j =0;i<num_resources;i++)
+    {
+        setup_file>>TheNumber;
+        max[i][j]=TheNumber;
+    }
 
-       if(num_resources ==3 && num_processes==5)
-         {
-            //depending on the num_resorses, will asign the length of the row
-             avali[3];
-             alloc[5][3];
-             max[5][3];
-             need[5][3];
-              cout<<"avaliable"<<endl;
-        
-        getline(setup_file,line);
-        while(getline(setup_file,line))
-        {
-          if(line != "Max")
-          {
-            int a,b,c;
-            const char* funny = line.c_str();
-            sscanf(funny,"%d,%d,%d",&a,&b,&c);
+}
+getline(setup_file,line);
+//sets up the Allocation array
+for(int i =0;i<num_processes;i++)
+{
+    int TheNumber;
+    for(int j =0;i<num_resources;i++)
+    {
+        setup_file>>TheNumber;
+        alloc[i][j]=TheNumber;
+    }
 
-          }
-          else{
-            break;
-          }
-           
-        }
-        }
-        else if (num_resources ==4 && num_processes==5)  
-        {
-           
-            alloc[5][4];
-            max[5][4];
-            need[5][4];
-             cout<<"avaliable"<<endl;
-        
-        getline(setup_file,line);
-        while(getline(setup_file,line))
-        {
-          if(line != "Max")
-          {
-            int e,f,g,h;
-            const char* funny = line.c_str();
-            sscanf(funny,"%d,%d,%d,%d",&e,&f,&g,&h);
-            avali[4]={e,f,g,h};
-          }
-          else{
-            break;
-          }
-           
-        }
-        }   
-        else
-        {
-    cout<<"Error 1.1 creating the 2-D array for algorithm";
-    return -1;
-        }
+}
 
-       
-        cout<<"Max"<<endl;
-        // Create the Banker's Algorithm data structures, in any
-        // way you like as long as they have the correct size
-        // (unfortunately, you might not be able to use sscanf for this...)
-        getline(setup_file,line);
-        while(line != "Allocation")
-        {// ask if there is an easier way
-            getline(setup_file,line);
-          
-            //check if the line reads alocate
-            if(line == "Allocation")
-            {
-                break;
-            }
-            
-        }
-
-        cout<<"Allocation"<<endl;
-        getline(setup_file,line);
-        while(!getline(setup_file,line))
-        {
-            getline(setup_file,line);
-            istringstream iss (line);
-        }
         
         //initializing every f element to 0
         for(int i =0;i<num_processes;i++)
