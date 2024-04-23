@@ -129,13 +129,47 @@ int main (int argc, char *argv[]) {
              alloc[5][3];
              max[5][3];
              need[5][3];
+              cout<<"avaliable"<<endl;
+        
+        getline(setup_file,line);
+        while(getline(setup_file,line))
+        {
+          if(line != "Max")
+          {
+            int a,b,c;
+            const char* funny = line.c_str();
+            sscanf(funny,"%d,%d,%d",&a,&b,&c);
+
+          }
+          else{
+            break;
+          }
+           
+        }
         }
         else if (num_resources ==4 && num_processes==5)  
         {
-            avali[4];
+           
             alloc[5][4];
             max[5][4];
             need[5][4];
+             cout<<"avaliable"<<endl;
+        
+        getline(setup_file,line);
+        while(getline(setup_file,line))
+        {
+          if(line != "Max")
+          {
+            int e,f,g,h;
+            const char* funny = line.c_str();
+            sscanf(funny,"%d,%d,%d,%d",&e,&f,&g,&h);
+            avali[4]={e,f,g,h};
+          }
+          else{
+            break;
+          }
+           
+        }
         }   
         else
         {
@@ -143,18 +177,7 @@ int main (int argc, char *argv[]) {
     return -1;
         }
 
-        cout<<"avaliable"<<endl;
-        
-        getline(setup_file,line);
-        while(line != "Max" )
-        {
-            getline(setup_file,line);
-            istringstream iss(line);
-             if(line == "Max")
-            {
-                break;
-            }
-        }
+       
         cout<<"Max"<<endl;
         // Create the Banker's Algorithm data structures, in any
         // way you like as long as they have the correct size
