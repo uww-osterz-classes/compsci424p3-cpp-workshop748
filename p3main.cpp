@@ -31,7 +31,7 @@ using namespace std; // if you want to type out "std::" every time, delete this
    time, so I'm allowing it here.
 */
 
-void manualMode()
+void manualMode(int n, int m)
 {
 string asking="";
 int units,Resources,process;
@@ -48,9 +48,13 @@ while(getline(cin,asking))
         break;
     }
 }
+if(Resources>0&&Resources<n-1){
+        //do something
 }
 
-void automaticMode()
+}
+
+void automaticMode(int n,int m)
 {
 
 }
@@ -168,7 +172,7 @@ for(int i =0;i<num_processes;i++)
     // 4. Check initial conditions to ensure that the system is
     // beginning in a safe state: see "Check initial conditions"
     // in the Program 3 instructions
-    for(int k=0;k<5;k++)
+    for(int k=0;k<num_processes;k++)
     {
         for(int i=0;i<num_resources;i++)
         {
@@ -226,11 +230,11 @@ for(int i =0;i<num_processes;i++)
     string  mode =argv[1];
     if(mode == "manual"||mode=="Manual")
     {
-        manualMode();
+        manualMode(num_resources,num_processes);
     }
     else if(mode == "automatic"||mode == "automatic")
     {
-        automaticMode();
+        automaticMode(num_resources,num_processes);
     }
     else
     {
