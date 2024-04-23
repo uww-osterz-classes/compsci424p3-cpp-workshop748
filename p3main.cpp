@@ -33,16 +33,12 @@ using namespace std; // if you want to type out "std::" every time, delete this
 
 int getNum(string &line)
 {
+ 
     //this is going to search for the string to find a possible space and take that char and turn it into a number
-  char NuminChar;
-  int num;
-    for( auto i: line){
-     if(i == ' ')
-     {
-        NuminChar = i--;
-     }   
-    }
-    return num =int(NuminChar);
+ const char * constChar = line.c_str();
+ int theNum;
+ sscanf(constChar,"%d,%s",&theNum);
+ return theNum;
 }
 void manualMode()
 {
@@ -114,7 +110,7 @@ int main (int argc, char *argv[]) {
         num_resources=getNum(line);
        
         cout << num_resources << " resources" << endl;
-
+       
 
         setup_file >> num_processes;
 
