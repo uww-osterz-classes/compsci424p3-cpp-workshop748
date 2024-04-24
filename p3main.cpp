@@ -16,9 +16,10 @@
 #include <fstream>
 #include <string>
 #include <cstdio> // for sscanf because Dr. Oster likes the C way to
-                  // get data from strings better than the C++ way
-#include<vector>
-#include<sstream>
+#include<thread>       // get data from strings better than the C++ way
+#include<mutex>
+
+
 using namespace std; // if you want to type out "std::" every time, delete this
 
 /*
@@ -30,6 +31,24 @@ using namespace std; // if you want to type out "std::" every time, delete this
    they're usually correct!), but systems programmers do it all the
    time, so I'm allowing it here.
 */
+int work[NULL];
+bool Finish[NULL];
+int ind =0;
+int max[NULL][NULL];
+int need[NULL][NULL];
+int avali[NULL];
+int alloc[NULL][NULL];
+
+
+void request()
+{
+
+}
+
+void release()
+{
+
+}
 
 void manualMode(int n, int m)
 {
@@ -43,14 +62,57 @@ while(getline(cin,asking))
     {
     const char* fun = asking.c_str();
     sscanf(fun, "%s,%d,%*s,%d,%*s,%d",regOrRel,&units,&Resources,&process);
+    if(string(regOrRel)=="request")
+    {
+if(units>0&&units<max[process][Resources])
+{
+if(Resources>0&&Resources<m-1)
+            {
+                if(process>0&&process<n-1)
+                {
+
+                }else{
+                    cout<<"error";
+                    break;
+                }
+            }else{
+            cout<<"error";
+            break;
+            }
+        }else{
+            cout <<"error";
+            break;
+        }
+}
+    }
+     else if(string(regOrRel)=="released")
+     {
+        if(units>0&&units<alloc[process][Resources])
+        {
+            if(Resources>0&&Resources<m-1)
+            {
+                if(process>0&&process<n-1)
+                {
+
+                }else{
+                    cout<<"error";
+                    break;
+                }
+            }else{
+            cout<<"error";
+            break;
+            }
+        }else{
+            cout <<"error";
+            break;
+        }
+     }
     }
     else{
         break;
     }
 }
-if(Resources>0&&Resources<n-1){
-        //do something
-}
+
 
 }
 
@@ -89,11 +151,7 @@ int main (int argc, char *argv[]) {
     string line;
     int num_resources;
     int num_processes;
-    int work[NULL],Finish[NULL],ind =0;
-    int max[NULL][NULL];
-    int need[NULL][NULL];
-    int avali[NULL];
-    int alloc[NULL][NULL];
+    
     
     setup_file.open(argv[2], ios::in);
     if (setup_file.is_open()) {
@@ -148,12 +206,12 @@ for(int i =0;i<num_processes;i++)
 }
 
         
-        //initializing every f element to 0
+        //initializing every work element to 0
         for(int i =0;i<num_processes;i++)
         {
             work[i]=0;
         } 
-
+//setting up the need fo the program.
         for(int i=0;i<num_processes;i++)
         {
             for(int j=0;j<num_resources;j++)
@@ -232,7 +290,7 @@ for(int i =0;i<num_processes;i++)
     {
         manualMode(num_resources,num_processes);
     }
-    else if(mode == "automatic"||mode == "automatic")
+    else if(mode == "auto"||mode == "auto")
     {
         automaticMode(num_resources,num_processes);
     }
