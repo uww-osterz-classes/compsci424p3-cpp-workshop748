@@ -32,7 +32,7 @@ using namespace std; // if you want to type out "std::" every time, delete this
    time, so I'm allowing it here.
 */
 int ind = 0;
-vector<vector<int>>Request;
+vector<vector<int>>u;
 vector<vector<int>> TheMax;
 vector<bool>Finish;
 vector<int>work;
@@ -65,7 +65,6 @@ void bankersAlgorithm(int n, int m)
     {
         for (int i = 0; i < m; i++)
         {
-            //probably not the best way of doing things but im simplifying my code so I can understand it better
             if (work[i] == 0)
             {
                 int flag = 1;
@@ -92,14 +91,84 @@ void bankersAlgorithm(int n, int m)
     }
 }
 
-void request()
+void request(int n,int m,int units,int resources,int processes)
 {
+    bankersAlgorithm(processes, resources);
+    bool reqBool = IsSafe(n);
+    if (reqBool == false)
+    {
+        cout << "this opperation is unsafe.";
+    }
+    else {
+        if (units <= need[n][m])
+        {
+            if (units <= available[m])
+            {
+                available[m] = available[m] - units;
+                Allocation[n][m] = Allocation[n][m] + units;
+                need[n][m] = need[n][m] - units;
+                bankersAlgorithm(processes,resources);
+                reqBool = IsSafe(n);
+                if (reqBool==false)
+                {
+                   
+                    cout << "this operatingon is unsafe" << endl;
+                    //this is the same formula for release
+                    available[m] = available[m] + units;
+                    Allocation[n][m] = Allocation[n][m] - units;
+                    need[n][m] = need[n][m] + units;
+                }
+            }
+            else {
+                cout << "this opperation is unsafe";
+            }
 
+       }else {
+                cout << "There was an error with your request" << endl;
+            }
+        
+    }
+    
 }
 
-void release()
+void  released(int n, int m, int units, int resources, int processes)
 {
+    bankersAlgorithm(processes, resources);
+    bool reqBool = IsSafe(n);
+    if (reqBool == false)
+    {
+        cout << "this opperation is unsafe.";
+    }
+    else {
+        if (units <= need[n][m])
+        {
+            if (units <= available[m])
+            {
+                available[m] = available[m] + units;
+                Allocation[n][m] = Allocation[n][m] - units;
+                need[n][m] = need[n][m] + units;
+                bankersAlgorithm(processes, resources);
+                reqBool = IsSafe(n);
+                if (reqBool == false)
+                {
 
+                    cout << "this operatingon is unsafe" << endl;
+                    //this is the same formula for release
+                    available[m] = available[m] - units;
+                    Allocation[n][m] = Allocation[n][m] + units;
+                    need[n][m] = need[n][m] - units;
+                }
+            }
+            else {
+                cout << "this opperation is unsafe";
+            }
+
+        }
+        else {
+            cout << "There was an error with your request" << endl;
+        }
+
+    }
 }
 
 void manualMode(int n, int m)
@@ -122,7 +191,7 @@ void manualMode(int n, int m)
                     {
                         if (process > 0 && process < n - 1)
                         {
-
+                            request(Resources, process, units, m, n);
                         }
                         else {
                             cout << "error";
@@ -148,7 +217,7 @@ void manualMode(int n, int m)
                 {
                     if (process > 0 && process < n - 1)
                     {
-
+                        released(Resources, process, units, m, n);
                     }
                     else
                     {
@@ -228,7 +297,7 @@ int main(int argc, char* argv[]) {
         getline(setup_file, line); // skips the rest of the "processes" line
         getline(setup_file, line);
         //>> will grab a sequence of characters and do the right thing with it.
-                //declaring the 2-D Array outside and declairing them as NUll
+                //declaring the 2-D Array outside and declaring them as NUll
         //this is setting up the Available array        
         for(int i = 0; i < num_resources; i++)
         {
