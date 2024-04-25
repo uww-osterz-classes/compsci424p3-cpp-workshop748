@@ -58,6 +58,7 @@ bool IsSafe(int n)
         //safe to run 
         return true;
     }
+    return false;//should not happen
 }
 void bankersAlgorithm(int n, int m)
 {
@@ -182,7 +183,7 @@ void manualMode(int n, int m)
         if (asking != "end")
         {
             const char* fun = asking.c_str();
-            sscanf_s(fun, "%s,%d,%*s,%d,%*s,%d", regOrRel,8, &units, &Resources, &process);
+            sscanf(fun, "%s,%d,%*s,%d,%*s,%d", regOrRel, &units, &Resources, &process);
             if (string(regOrRel) == "request")
             {
                 if (units > 0 && units < TheMax[process][Resources])
@@ -274,7 +275,7 @@ int main(int argc, char* argv[]) {
     // 1. Open the setup file using the path in argv[2]
     ifstream setup_file;
     string line;
-    int num_resources;
+    int num_resources=0;
     int num_processes;
 
 
@@ -283,19 +284,16 @@ int main(int argc, char* argv[]) {
         // 2. Get the number of resources and processes from the setup
         // file, and use this info to create the Banker's Algorithm
         // data structures
-        setup_file >> num_resources;
-        getline(setup_file, line); // skips the rest of the "resources" line
-
-
+              setup_file >> num_resources;
         cout << num_resources << " resources" << endl;
 
-
+        getline(setup_file, line); // skips the rest of the "resources" line
+        
         setup_file >> num_processes;
-
         cout << num_processes << " processes" << endl;
-
-        getline(setup_file, line); // skips the rest of the "processes" line
+        
         getline(setup_file, line);
+        cout<<num_resources;
         //>> will grab a sequence of characters and do the right thing with it.
                 //declaring the 2-D Array outside and declaring them as NUll
         //this is setting up the Available array        
@@ -347,7 +345,7 @@ int main(int argc, char* argv[]) {
         }
         // 3. Use the rest of the setup file to initialize the data structures
 
-
+std::cout<<"breakpoint";
         // Done reading the file, so close it
         setup_file.close();
     } // end: if setup_file.is_open()
@@ -388,6 +386,7 @@ int main(int argc, char* argv[]) {
     bool safeOrNot = IsSafe(num_processes);
     if (safeOrNot == false)
     {
+        cout<<"breakpoint";
         return -1;
     }
 
@@ -396,6 +395,7 @@ int main(int argc, char* argv[]) {
     // as separate methods within this class, as separate classes
     // with their own main methods, or as additional code within
     // this main method.
+    std::cout<<"breakpoint";
     string  mode = argv[1];
     if (mode == "manual" || mode == "Manual")
     {
