@@ -288,12 +288,14 @@ int main(int argc, char* argv[]) {
         cout << num_resources << " resources" << endl;
 
         getline(setup_file, line); // skips the rest of the "resources" line
-        
+      
         setup_file >> num_processes;
         cout << num_processes << " processes" << endl;
-        
+       
         getline(setup_file, line);
-        cout<<num_resources;
+        
+        getline(setup_file,line);
+     
         //>> will grab a sequence of characters and do the right thing with it.
                 //declaring the 2-D Array outside and declaring them as NUll
         //this is setting up the Available array        
@@ -301,40 +303,59 @@ int main(int argc, char* argv[]) {
         {
             int theNumber;
             setup_file >> theNumber;
+            
             available.push_back(theNumber);
+            
         }
-        getline(setup_file, line);
+       //should be getting the max
+       cout<<line<<endl;
+       //this is not printing anything
+       getline(setup_file,line);
+       cout<<line<<endl;
+        getline(setup_file,line);
+       cout<<line<<endl;
         //set up the max array
+        TheMax.resize(num_processes);
         for(int i = 0; i < num_processes; i++)
         {
-            int TheNumber;
-            for (int j = 0; i < num_resources; i++)
-            {
-                setup_file >> TheNumber;
-                TheMax.at(i).push_back(TheNumber);
+            vector<int>Temp;
+            Temp.resize(num_resources);
+            for(int j =0;j<num_resources;j++){
+                
+                int num;
+                cout<<num;
+                Temp[j]=num;
             }
+            TheMax.push_back(Temp);
+            TheMax[i].resize(num_resources);
+           
 
         }
         getline(setup_file, line);
         //sets up the Allocation array
+        Allocation.resize(num_processes);
         for(int i = 0; i < num_processes; i++)
         {
-            int TheNumber;
-            for (int j = 0; i < num_resources; i++)
-            {
-                setup_file >> TheNumber;
-                Allocation[i][j] = TheNumber;
+            vector<int>Temp;
+            Temp.resize(num_resources);
+            for(int j =0;j<num_resources;j++){
+                
+                int num;
+                cout<<num;
+                Temp[j]=num;
             }
-
+            Allocation.push_back(Temp);
+            Allocation[i].resize(num_resources);
         }
 
-
+        work.resize(num_processes);
         //initializing every work element to 0
         for (int i = 0; i < num_processes; i++)
         {
             work[i] = 0;
         }
         //setting up the need fo the program.
+        need.resize(num_processes);
         for (int i = 0; i < num_processes; i++)
         {
             for (int j = 0; j < num_resources; j++)
@@ -342,6 +363,7 @@ int main(int argc, char* argv[]) {
 
                 need[i][j] = TheMax[i][j] - Allocation[i][j];
             }
+            need[i].resize(num_resources);
         }
         // 3. Use the rest of the setup file to initialize the data structures
 
