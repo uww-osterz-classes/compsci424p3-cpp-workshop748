@@ -175,7 +175,7 @@ void  released(int n, int m, int units, int resources, int processes)
 void manualMode(int n, int m)
 {
     string asking = "";
-    int units, Resources, process;
+    int units=0, Resources=0, process=0;
     char regOrRel[20];
 
     while (getline(cin, asking))
@@ -183,7 +183,7 @@ void manualMode(int n, int m)
         if (asking != "end")
         {
             const char* fun = asking.c_str();
-            sscanf(fun, "%s,%d,%*s,%d,%*s,%d", regOrRel, &units, &Resources, &process);
+           sscanf(fun, "%s %d of %d for %d", regOrRel, &units, &Resources, &process);
             if (string(regOrRel) == "request")
             {
                 if (units > 0 && units < TheMax[process][Resources])
@@ -276,7 +276,7 @@ int main(int argc, char* argv[]) {
     ifstream setup_file;
     string line;
     int num_resources=0;
-    int num_processes;
+    int num_processes=0;
 
 
     setup_file.open(argv[2], ios::in);
@@ -319,6 +319,7 @@ int main(int argc, char* argv[]) {
         for(int i = 0; i < num_processes; i++)
         {
             vector<int>Temp;
+            TheMax[i].resize(num_resources);
             Temp.resize(num_resources);
             for(int j =0;j<num_resources;j++){
                 
@@ -327,13 +328,13 @@ int main(int argc, char* argv[]) {
                 Temp[j]=num;
             }
             TheMax.push_back(Temp);
-            TheMax[i].resize(num_resources);
+            
            
 
         }
         getline(setup_file, line);
         //sets up the Allocation array
-        Allocation.resize(num_processes);
+        
         for(int i = 0; i < num_processes; i++)
         {
             vector<int>Temp;
@@ -345,7 +346,7 @@ int main(int argc, char* argv[]) {
                 Temp[j]=num;
             }
             Allocation.push_back(Temp);
-            Allocation[i].resize(num_resources);
+            
         }
 
         work.resize(num_processes);
@@ -358,12 +359,13 @@ int main(int argc, char* argv[]) {
         need.resize(num_processes);
         for (int i = 0; i < num_processes; i++)
         {
+            need[i].resize(num_resources);
             for (int j = 0; j < num_resources; j++)
             {
 
                 need[i][j] = TheMax[i][j] - Allocation[i][j];
             }
-            need[i].resize(num_resources);
+            
         }
         // 3. Use the rest of the setup file to initialize the data structures
 
