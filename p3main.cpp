@@ -246,6 +246,15 @@ void manualMode(int n, int m)
     }
 
 }
+int randNum()
+{
+
+}
+void automode(int n, int m)
+{
+
+
+}
 
 /*
   Arguments:
@@ -299,7 +308,10 @@ int main(int argc, char* argv[]) {
         //>> will grab a sequence of characters and do the right thing with it.
                 //declaring the 2-D Array outside and declaring them as NUll
         //this is setting up the Available array        
-        for(int i = 0; i < num_resources; i++)
+        
+       //should be getting the max
+       cout<<line<<endl;
+       for(int i = 0; i < num_resources; i++)
         {
             int theNumber;
             setup_file >> theNumber;
@@ -307,56 +319,82 @@ int main(int argc, char* argv[]) {
             available.push_back(theNumber);
             
         }
-       //should be getting the max
-       cout<<line<<endl;
+        for(int i =0;i<available.size();i++)
+        {
+            cout<<available.at(i)<<" ";
+        }
        //this is not printing anything
        getline(setup_file,line);
-       cout<<line<<endl;
+       
         getline(setup_file,line);
-       cout<<line<<endl;
+       cout<<endl<<line<<endl;
         //set up the max array
-        TheMax.resize(num_processes);
-        for(int i = 0; i < num_processes; i++)
+        
+       for(int i = 0; i < num_processes; i++)
         {
             vector<int>Temp;
-            TheMax[i].resize(num_resources);
-            Temp.resize(num_resources);
+           /** TheMax[i].resize(num_resources);
+            Temp.resize(num_resources);*/
             for(int j =0;j<num_resources;j++){
                 
                 int num;
-                cout<<num;
-                Temp[j]=num;
+                setup_file>>num;
+                Temp.push_back(num);
+               // cout<<Temp[j]<<endl;
             }
+            Temp.resize(num_resources);
+          //  cout<<endl<<Temp.size()<<endl;
             TheMax.push_back(Temp);
-            
+        }
+        for (size_t i = 0; i < TheMax.size(); ++i) {
+        for (size_t j = 0; j < TheMax[i].size(); ++j) {
+            std::cout << TheMax[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+          
            
 
-        }
+       // }
         getline(setup_file, line);
         //sets up the Allocation array
-        
+        getline(setup_file,line);
+       cout<<"Allocation"<<endl;
         for(int i = 0; i < num_processes; i++)
         {
             vector<int>Temp;
-            Temp.resize(num_resources);
+           
             for(int j =0;j<num_resources;j++){
                 
                 int num;
-                cout<<num;
-                Temp[j]=num;
+                setup_file>>num;
+                Temp.push_back(num);
             }
+            Temp.resize(num_resources);
+          //  cout<<endl<<Temp.size()<<endl;
             Allocation.push_back(Temp);
-            
         }
 
-        work.resize(num_processes);
-        //initializing every work element to 0
-        for (int i = 0; i < num_processes; i++)
-        {
-            work[i] = 0;
+         for (size_t i = 0; i < Allocation.size(); ++i) {
+        for (size_t j = 0; j < Allocation[i].size(); ++j) {
+            std::cout << Allocation[i][j] << " ";
         }
+        std::cout << std::endl;
+         }
+       // getline(setup_file,line);
+     
+        // 3. Use the rest of the setup file to initialize the data structures
+
+std::cout<<"End of reading file"<<endl;
+        // Done reading the file, so close it
+        setup_file.close();
+    } // end: if setup_file.is_open()
+    cout<<available.size()<<endl;
+cout<<"please work";
+
         //setting up the need fo the program.
-        need.resize(num_processes);
+       
         for (int i = 0; i < num_processes; i++)
         {
             need[i].resize(num_resources);
@@ -367,13 +405,7 @@ int main(int argc, char* argv[]) {
             }
             
         }
-        // 3. Use the rest of the setup file to initialize the data structures
-
-std::cout<<"breakpoint";
-        // Done reading the file, so close it
-        setup_file.close();
-    } // end: if setup_file.is_open()
-
+         need.resize(num_processes);
     // 4. Check initial conditions to ensure that the system is
     // beginning in a safe state: see "Check initial conditions"
     // in the Program 3 instructions
