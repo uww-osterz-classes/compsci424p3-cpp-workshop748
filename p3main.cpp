@@ -346,17 +346,13 @@ int main(int argc, char* argv[]) {
           //  cout<<endl<<Temp.size()<<endl;
             TheMax.push_back(Temp);
         }
-        for (size_t i = 0; i < TheMax.size(); ++i) {
+        for (size_t i = 0; i < TheMax.size(); ++i) 
+        {
         for (size_t j = 0; j < TheMax[i].size(); ++j) {
             std::cout << TheMax[i][j] << " ";
         }
         std::cout << std::endl;
-    }
-
-          
-           
-
-       // }
+        }
         getline(setup_file, line);
         //sets up the Allocation array
         getline(setup_file,line);
@@ -383,21 +379,32 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
          }
        // getline(setup_file,line);
-     
         // 3. Use the rest of the setup file to initialize the data structures
-
-std::cout<<"End of reading file"<<endl;
+        std::cout<<"End of reading file"<<endl;
+        getline(setup_file,line);
         // Done reading the file, so close it
         setup_file.close();
-    } // end: if setup_file.is_open()
-    cout<<available.size()<<endl;
-cout<<"please work";
-
+    } 
+    // end: if setup_file.is_open()
+    cout<<"WORK"<<endl;
+        for(int i =0;i<num_processes;i++)
+        {
+           //cout<<available[i]<<endl;
+           // work[i]=available[i];
+        work.push_back(available.at(i));
+        cout<<work[i]<<endl;
+        }
+        //work.resize(num_processes);
         //setting up the need fo the program.
-       
+        cout<<work.size()<<endl<<"hello?";
+       for(int i =0;i<work.size();i++)
+       {
+        cout<<work[i]<<endl;
+       }
+       cout<<endl;
         for (int i = 0; i < num_processes; i++)
         {
-            need[i].resize(num_resources);
+
             for (int j = 0; j < num_resources; j++)
             {
 
@@ -459,14 +466,12 @@ cout<<"please work";
     }
     else if (mode == "auto" || mode == "Auto")
     {
-        
+       //enter automode 
     }
     else
     {
         cout << " Invalid node. Please try again by specifying 'manual' or 'automatic'";
         return 1;
     }
-
-
     return 0; // terminate normally
 }
