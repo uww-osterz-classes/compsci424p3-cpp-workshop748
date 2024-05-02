@@ -395,22 +395,31 @@ int main(int argc, char* argv[]) {
         }
         //work.resize(num_processes);
         //setting up the need fo the program.
-        cout<<work.size()<<endl<<"hello?";
        for(int i =0;i<work.size();i++)
        {
-        cout<<work[i]<<endl;
+        cout<<work[i]<<" ";
        }
-       cout<<endl;
+       cout<<endl<<"Need"<<endl;
         for (int i = 0; i < num_processes; i++)
         {
-
+            vector<int> temp;
             for (int j = 0; j < num_resources; j++)
             {
-
-                need[i][j] = TheMax[i][j] - Allocation[i][j];
+               
+                int num1 =TheMax.at(i).at(j);
+                int num2 =Allocation.at(i).at(j);
+                //need[i][j] = TheMax[i][j] - Allocation[i][j];
+         
+            int num3 = num1-num2;
+            cout<<num3<<" "; 
+            temp.push_back(num3);
             }
+            temp.resize(num_resources);
+            need.push_back(temp);
+            cout<<endl;
             
         }
+
          need.resize(num_processes);
     // 4. Check initial conditions to ensure that the system is
     // beginning in a safe state: see "Check initial conditions"
