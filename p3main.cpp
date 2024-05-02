@@ -387,12 +387,11 @@ int main(int argc, char* argv[]) {
     } 
     // end: if setup_file.is_open()
     cout<<"WORK"<<endl;
-        for(int i =0;i<num_processes;i++)
+        for(int i =0;i<num_resources;i++)
         {
            //cout<<available[i]<<endl;
            // work[i]=available[i];
         work.push_back(available.at(i));
-        cout<<work[i]<<endl;
         }
         //work.resize(num_processes);
         //setting up the need fo the program.
