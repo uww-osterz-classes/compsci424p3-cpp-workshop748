@@ -184,28 +184,31 @@ void manualMode(int n, int m)
         {
             const char* fun = asking.c_str();
            sscanf(fun, "%s %d of %d for %d", regOrRel, &units, &Resources, &process);
+           cout<<string(regOrRel);
             if (string(regOrRel) == "request")
             {
                 if (units > 0 && units < TheMax[process][Resources])
                 {
+                    cout<<"test1"<<endl;
                     if (Resources > 0 && Resources < m - 1)
                     {
+                        cout<<"test2"<<endl;
                         if (process > 0 && process < n - 1)
                         {
                             request(Resources, process, units, m, n);
                         }
                         else {
-                            cout << "error";
+                            cout << "error1";
                             break;
                         }
                     }
                     else {
-                        cout << "error";
+                        cout << "error2";
                         break;
                     }
                 }
                 else {
-                    cout << "error";
+                    cout << "error3";
                     break;
                 }
             }
