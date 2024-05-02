@@ -131,7 +131,7 @@ void request(int n,int m,int units,int resources,int processes)
     }
     
 }
-
+//num_resources, num_processes
 void  released(int n, int m, int units, int resources, int processes)
 {
     bankersAlgorithm(processes, resources);
@@ -177,7 +177,7 @@ void manualMode(int n, int m)
     string asking = "";
     int units=0, Resources=0, process=0;
     char regOrRel[20];
-
+    cout<<" please spesify to request or relase or end"<<endl;
     while (getline(cin, asking))
     {
         if (asking != "end")
@@ -457,7 +457,7 @@ int main(int argc, char* argv[]) {
     bool safeOrNot = IsSafe(num_processes);
     if (safeOrNot == false)
     {
-        cout<<"breakpoint";
+        cout<<"This opperation is unsafe.";
         return -1;
     }
 
@@ -466,7 +466,7 @@ int main(int argc, char* argv[]) {
     // as separate methods within this class, as separate classes
     // with their own main methods, or as additional code within
     // this main method.
-    std::cout<<"breakpoint";
+    
     string  mode = argv[1];
     if (mode == "manual" || mode == "Manual")
     {
