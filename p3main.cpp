@@ -29,7 +29,7 @@ using namespace std; // if you want to type out "std::" every time, delete this
 
    Most software engineers say global variables are a Bad Idea (and
    they're usually correct!), but systems programmers do it all the
-   time, so I'm allowing it here.
+   time, so I'num_processes allowing it here.
 */
 int ind = 0;
 vector<vector<int>>u;
@@ -41,10 +41,10 @@ vector<vector<int>>need;
 vector<vector<int>>Allocation;
 
 
-bool IsSafe(int n)
+bool IsSafe(int num_resources)
 {
     int flag = 1;
-    for (int i = 0; i <n; i++)
+    for (int i = 0; i <num_resources; i++)
     {
         if (work[i] == 0)
         {
@@ -60,16 +60,16 @@ bool IsSafe(int n)
     }
     return false;//should not happen
 }
-void bankersAlgorithm(int n, int m)
+void bankersAlgorithm(int num_resources, int num_processes)
 {
-    for (int k = 0; k < n; k++)
+    for (int k = 0; k < num_resources; k++)
     {
-        for (int i = 0; i < m; i++)
+        for (int i = 0; i < num_processes; i++)
         {
             if (work[i] == 0)
             {
                 int flag = 1;
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < num_resources; j++)
                 {
                     if (need[i][j] > available[j])
                     {
@@ -80,7 +80,7 @@ void bankersAlgorithm(int n, int m)
                 if (flag == 0)
                 {
                     Finish[ind++] = i;
-                    for (int j = 0; j < m; j++)
+                    for (int j = 0; j < num_processes; j++)
                     {
                         available[j] += Allocation[i][j];
                     }
@@ -92,32 +92,32 @@ void bankersAlgorithm(int n, int m)
     }
 }
 
-void request(int n,int m,int units,int resources,int processes)
+void request(int num_resources,int num_processes,int units,int resources,int processes)
 {
     bankersAlgorithm(processes, resources);
-    bool reqBool = IsSafe(n);
+    bool reqBool = IsSafe(num_resources);
     if (reqBool == false)
     {
         cout << "this opperation is unsafe.";
     }
     else {
-        if (units <= need[n][m])
+        if (units <= need[num_resources][num_processes])
         {
-            if (units <= available[m])
+            if (units <= available[num_processes])
             {
-                available[m] = available[m] - units;
-                Allocation[n][m] = Allocation[n][m] + units;
-                need[n][m] = need[n][m] - units;
+                available[num_processes] = available[num_processes] - units;
+                Allocation[num_resources][num_processes] = Allocation[num_resources][num_processes] + units;
+                need[num_resources][num_processes] = need[num_resources][num_processes] - units;
                 bankersAlgorithm(processes,resources);
-                reqBool = IsSafe(n);
+                reqBool = IsSafe(num_resources);
                 if (reqBool==false)
                 {
                    
                     cout << "this operatingon is unsafe" << endl;
                     //this is the same formula for release
-                    available[m] = available[m] + units;
-                    Allocation[n][m] = Allocation[n][m] - units;
-                    need[n][m] = need[n][m] + units;
+                    available[num_processes] = available[num_processes] + units;
+                    Allocation[num_resources][num_processes] = Allocation[num_resources][num_processes] - units;
+                    need[num_resources][num_processes] = need[num_resources][num_processes] + units;
                 }
             }
             else {
@@ -129,35 +129,35 @@ void request(int n,int m,int units,int resources,int processes)
             }
         
     }
-    
+     
 }
 //num_resources, num_processes
-void  released(int n, int m, int units, int resources, int processes)
+void  released(int num_resources, int num_processes, int units, int resources, int processes)
 {
     bankersAlgorithm(processes, resources);
-    bool reqBool = IsSafe(n);
+    bool reqBool = IsSafe(num_resources);
     if (reqBool == false)
     {
         cout << "this opperation is unsafe.";
     }
     else {
-        if (units <= need[n][m])
+        if (units <= need[num_resources][num_processes])
         {
-            if (units <= available[m])
+            if (units <= available[num_processes])
             {
-                available[m] = available[m] + units;
-                Allocation[n][m] = Allocation[n][m] - units;
-                need[n][m] = need[n][m] + units;
+                available[num_processes] = available[num_processes] + units;
+                Allocation[num_resources][num_processes] = Allocation[num_resources][num_processes] - units;
+                need[num_resources][num_processes] = need[num_resources][num_processes] + units;
                 bankersAlgorithm(processes, resources);
-                reqBool = IsSafe(n);
+                reqBool = IsSafe(num_resources);
                 if (reqBool == false)
                 {
 
                     cout << "this operatingon is unsafe" << endl;
                     //this is the same formula for release
-                    available[m] = available[m] - units;
-                    Allocation[n][m] = Allocation[n][m] + units;
-                    need[n][m] = need[n][m] - units;
+                    available[num_processes] = available[num_processes] - units;
+                    Allocation[num_resources][num_processes] = Allocation[num_resources][num_processes] + units;
+                    need[num_resources][num_processes] = need[num_resources][num_processes] - units;
                 }
             }
             else {
@@ -171,8 +171,8 @@ void  released(int n, int m, int units, int resources, int processes)
 
     }
 }
-
-void manualMode(int n, int m)
+//num_resources, num_processes
+void manualMode(int num_resources, int num_processes)
 {
     string asking = "";
     int units=0, Resources=0, process=0;
@@ -187,29 +187,30 @@ void manualMode(int n, int m)
            cout<<string(regOrRel);
             if (string(regOrRel) == "request")
             {
-                if (units > 0 && units < TheMax[process][Resources])
+                if (units >= 0 && units <= TheMax[process][Resources])
                 {
-                    cout<<"test1"<<endl;
-                    if (Resources > 0 && Resources < m - 1)
+                    cout<<"valid amount of units"<<endl;
+                    if (Resources >= 0 && Resources <= num_resources - 1)
                     {
-                        cout<<"test2"<<endl;
-                        if (process > 0 && process < n - 1)
+                        cout<<"valid amount of resources"<<endl;
+                        if (process >= 0 && process <= num_processes - 1)
                         {
-                            request(Resources, process, units, m, n);
+                            cout<<"valid amount of resources"<<endl;
+                            request(Resources, process, units, num_processes, num_resources);
                         }
                         else {
-                            cout << "error1";
-                            break;
+                            cout << "invlade amount of processes"<<endl;
+                            
                         }
                     }
                     else {
-                        cout << "error2";
-                        break;
+                        cout << "invlade amount of requests"<<endl;
+                        
                     }
                 }
                 else {
-                    cout << "error3";
-                    break;
+                    cout << "invladived amount of units"<<endl;
+                    
                 }
             }
         }
@@ -217,11 +218,11 @@ void manualMode(int n, int m)
         {
             if (units > 0 && units < Allocation[process][Resources])
             {
-                if (Resources > 0 && Resources < m - 1)
+                if (Resources > 0 && Resources < num_resources - 1)
                 {
-                    if (process > 0 && process < n - 1)
+                    if (process > 0 && process < num_processes - 1)
                     {
-                        released(Resources, process, units, m, n);
+                        released(Resources, process, units, num_processes, num_resources);
                     }
                     else
                     {
@@ -253,7 +254,7 @@ int randNum()
 {
 
 }
-void automode(int n, int m)
+void automode(int num_resources, int num_processes)
 {
 
 
