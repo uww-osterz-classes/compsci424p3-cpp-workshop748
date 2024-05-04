@@ -19,6 +19,7 @@
 #include<thread>       // get data from strings better than the C++ way
 #include<mutex>
 #include<vector>
+#include<condition_variable>
 
 using namespace std; // if you want to type out "std::" every time, delete this
 
@@ -39,6 +40,9 @@ vector<int>work;
 vector<int>available;
 vector<vector<int>>need;
 vector<vector<int>>Allocation;
+bool turn = false;
+std::mutex mtx;
+condition_variable cv;
 
 
 bool IsSafe(int num_resources)
@@ -250,14 +254,49 @@ void manualMode(int num_resources, int num_processes)
     }
 
 }
-int randNum()
-{
 
+void autoRequest(int num_resources, int num_processes)
+{
+std::unique_lock<std::mutex> lck(mtx);
+int units, resources, process;
+int count = 0;
+while (count != 3)
+{
+	cv.wait(lck, [] {return !turn; });
+	resources = rand() % (num_resources-1);
+		process = rand() % (num_processes-1);
+        units = rand() % TheMax[resources][process];
+	std::cout << "Thread 2" << std::endl<<units<<std::endl<<resources<<std::endl<<process<<std::endl;
+	count++;
+	turn = true;
+	cv.notify_one();
+}
+}
+void autoRelease(int num_resources, int num_processes)
+{
+    	std::unique_lock<std::mutex> lck(mtx);
+	int units, resources, process;
+	int count = 0;
+	
+	while (count != 3)
+	{
+		
+		resources = rand() % (num_resources-1);
+		process = rand() % (num_processes-1);
+        units = rand() % Allocation[resources][process];
+		cv.wait(lck, [] {return turn; });
+		std::cout << "Thread 1" << std::endl << units << std::endl << resources << std::endl << process << std::endl;
+		count++;
+		turn = false;
+		cv.notify_one();
+	}
 }
 void automode(int num_resources, int num_processes)
 {
-
-
+thread t1(autoRequest,num_resources,num_processes);
+thread t2(autoRelease,num_processes,num_resources);
+t1.join();
+t2.join();
 }
 
 /*
