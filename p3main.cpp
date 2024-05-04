@@ -264,9 +264,14 @@ while (count != 3)
 {
 	cv.wait(lck, [] {return !turn; });
 	resources = rand() % (num_resources-1);
-		process = rand() % (num_processes-1);
-        units = rand() % TheMax[resources][process];
-	std::cout << "Thread 2" << std::endl<<units<<std::endl<<resources<<std::endl<<process<<std::endl;
+	process = rand() % (num_processes-1);
+    if(TheMax[resources][process] != 0)
+    {
+    units = rand() % TheMax[resources][process];
+	}else
+    {units =0;}
+    released(num_resources,num_processes,units,resources,process);
+    std::cout << "Thread 2" << std::endl<<units<<std::endl<<resources<<std::endl<<process<<std::endl;
 	count++;
 	turn = true;
 	cv.notify_one();
@@ -283,8 +288,13 @@ void autoRelease(int num_resources, int num_processes)
 		
 		resources = rand() % (num_resources-1);
 		process = rand() % (num_processes-1);
+        if(Allocation[resources][process]!=0){
         units = rand() % Allocation[resources][process];
-		cv.wait(lck, [] {return turn; });
+        }else{
+            units=0;
+        }
+        released(num_resources,num_processes, units,resources,process);
+        cv.wait(lck, [] {return turn; });
 		std::cout << "Thread 1" << std::endl << units << std::endl << resources << std::endl << process << std::endl;
 		count++;
 		turn = false;
@@ -517,7 +527,7 @@ int main(int argc, char* argv[]) {
     }
     else if (mode == "auto" || mode == "Auto")
     {
-       //enter automode 
+       automode(num_resources,num_processes);
     }
     else
     {
