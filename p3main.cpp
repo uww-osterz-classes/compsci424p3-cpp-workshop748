@@ -145,6 +145,7 @@ void  released(int num_resources, int num_processes, int units, int resources, i
         cout << "this opperation is unsafe.";
     }
     else {
+        
         if (units <= need[num_resources][num_processes])
         {
             if (units <= available[num_processes])
@@ -230,20 +231,20 @@ void manualMode(int num_resources, int num_processes)
                     }
                     else
                     {
-                        cout << "error";
-                        break;
+                        cout << "invlade amount of processes"<<endl;
+                        
                     }
                 }
                 else
                 {
-                    cout << "error";
-                    break;
+                    cout << "invlade amount of requests"<<endl;
+                    
                 }
             }
             else
             {
-                cout << "error";
-                break;
+                cout << "invladived amount of units"<<endl;
+                
             }
         }
         else
@@ -259,7 +260,7 @@ void autoRequest(int num_resources, int num_processes)
 {
 std::unique_lock<std::mutex> lck(mtx);
 int units, resources, process;
-int count = 0;
+int count = 0;          
 while (count != 3)
 {
 	cv.wait(lck, [] {return !turn; });
@@ -270,8 +271,9 @@ while (count != 3)
     units = rand() % TheMax[resources][process];
 	}else
     {units =0;}
-    released(num_resources,num_processes,units,resources,process);
-    std::cout << "Thread 2" << std::endl<<units<<std::endl<<resources<<std::endl<<process<<std::endl;
+    std::cout << "Request thread" << std::endl<<"num of units: "<<units<<std::endl<<"num of resources: "<<resources<<std::endl<<"num of processes: "<< process<<std::endl;
+    //released(num_resources,num_processes,units,resources,process);
+    request(resources,process,units,num_resources,num_processes);
 	count++;
 	turn = true;
 	cv.notify_one();
@@ -293,9 +295,10 @@ void autoRelease(int num_resources, int num_processes)
         }else{
             units=0;
         }
-        released(num_resources,num_processes, units,resources,process);
+        std::cout << "Release thread" << std::endl<<"num of units: "<<units<<std::endl<<" num of resources: "<<resources<<std::endl<<"num of processes: "<< process<<std::endl;
+        released(resources,process,units,num_resources,num_processes);
         cv.wait(lck, [] {return turn; });
-		std::cout << "Thread 1" << std::endl << units << std::endl << resources << std::endl << process << std::endl;
+		//std::cout << "Thread 1" << std::endl << units << std::endl << resources << std::endl << process << std::endl;
 		count++;
 		turn = false;
 		cv.notify_one();
